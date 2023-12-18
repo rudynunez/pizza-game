@@ -17,7 +17,9 @@ startGameLoop() {
 
         // Draw Game Objects
         Object.values(this.map.gameObjects).forEach(object => {
-            object.x += 0.1;
+            object.update({
+                arrow: this.directionInput.direction
+            });
             object.sprite.draw(this.ctx);
         })
 
@@ -25,7 +27,6 @@ startGameLoop() {
         this.map.drawUpperImage(this.ctx);
 
         requestAnimationFrame(() => {
-            
             step();
         })
     }
@@ -34,8 +35,13 @@ startGameLoop() {
 
 
     init() {
-        this.map = new OverworldMap(window.OverworldMaps.Kitchen)
-      this.startGameLoop();
+        this.map = new OverworldMap(window.OverworldMaps.DemoRoom);
+
+        this.directionInput = new DirectionInput();
+        this.directionInput.init();
+        this.directionInput.direction; // "down"
+
+        this.startGameLoop();
 
 
     }
