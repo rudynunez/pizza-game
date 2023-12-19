@@ -48,7 +48,16 @@ class Person extends GameObject {
             // Ready to walk!
             state.map.moveWall(this.x, this.y, this.direction);
             this.movingProgressRemaining = 16;
+            this.updateSprite(state);
         }
+
+        // if (behavior.type === "stand") {
+        //     setTimeout(() => {
+        //         utils.emitEvent("PersonStandComplete", {
+        //             whoId: this.id
+        //         })
+        //     }, behavior.time)
+        // }
 
     }
 
@@ -58,6 +67,13 @@ class Person extends GameObject {
             this[property] += change;
             this.movingProgressRemaining -= 1;
         
+            if (this.movingProgressRemaining === 0) {
+
+                // We finished the walk!
+                utils.emitEvent("PersonWalkingComplete", {
+                    whoId: this.id
+                })
+            }
     }
 
     updateSprite() {
